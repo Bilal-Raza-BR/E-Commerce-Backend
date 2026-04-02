@@ -1,6 +1,6 @@
 const { modal } = require('../Modal/modal');
 const otpStore = require('../OtpStore/otps');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const verifyOtp = async (req, res) => {
   try {
