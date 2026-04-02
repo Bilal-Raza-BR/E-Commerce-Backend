@@ -13,7 +13,8 @@ const MyRouter = require('./routes/route');
 
 // Zaroori: Check karein ke folder ka naam 'until' hai ya 'utils'
 // Agar folder ka naam utils hai to niche line ko './utils/seedProduct' karein
-const seedProductRouter = require('./until/seedProduct'); 
+// Is file mein se fs.mkdirSync('uploads') wali line lazmi khatam karein
+const seedProductRouter = require('./until/seedProduct');
 
 // Middleware
 // Railway par deploy karte waqt FRONTEND_URL env variable set karein
