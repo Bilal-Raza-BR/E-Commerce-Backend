@@ -1,5 +1,5 @@
 const { modal } = require('../Modal/modal');
-const otpStore = require('../OtpStore/otps');
+const OtpModel = require('../Modal/OtpModal');
 const bcrypt = require('bcryptjs');
 
 const verifyOtp = async (req, res) => {
@@ -11,9 +11,7 @@ const verifyOtp = async (req, res) => {
     }
 
     // Find the OTP in the store
-    const otpRecord = otpStore.find(record => record.email === email);
-console.log(otpRecord);
-console.log(otpStore);
+    const otpRecord = await OtpModel.findOne({ email }).sort({ createdAt: -1 });
 
     if (!otpRecord) {
       return res.status(400).send({ message: 'No OTP was sent to this email', success: false });
@@ -21,11 +19,7 @@ console.log(otpStore);
 
     // Check if OTP has expired
     if (Date.now() > otpRecord.expiry) {
-      // Remove expired OTP from store
-      const index = otpStore.findIndex(record => record.email === email);
-      if (index !== -1) {
-        otpStore.splice(index, 1);
-      }
+      await OtpModel.deleteMany({ email });
       return res.status(400).send({ message: 'OTP has expired. Please request a new one', success: false });
     }
 
@@ -50,10 +44,7 @@ console.log(otpStore);
     }
 
     // Remove the OTP from store after successful verification
-    const index = otpStore.findIndex(record => record.email === email);
-    if (index !== -1) {
-      otpStore.splice(index, 1);
-    }
+    await OtpModel.deleteMany({ email });
 
     return res.status(200).send({ 
       message: newPassword ? 'Password updated successfully' : 'OTP verified successfully', 
