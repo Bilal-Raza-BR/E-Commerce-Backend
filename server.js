@@ -37,6 +37,14 @@ app.use((req, res, next) => {
   next();
 });
 
+// Root route to check if server is running
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "E-Commerce Backend Server is running successfully!"
+  });
+});
+
 // Routers
 app.use('/api', seedProductRouter); // product-related routes
 app.use(MyRouter); // other routes

@@ -9,14 +9,14 @@ const adminLoginCon = async (req, res) => {
         let { email, password } = req.body;
         console.log('Admin login attempt:', email);
 
-        if(!email || !password){
-            return res.status(400).send({message: 'Please Fill all fields', login: false})
+        if (!email || !password) {
+            return res.status(400).send({ message: 'Please Fill all fields', login: false });
         }
 
         const exitingUser = await modal.findOne({ email }); // null or document
 
-        if(!exitingUser){
-            return res.status(400).send({message: 'Your Email is wrong!', login: false})
+        if (!exitingUser) {
+            return res.status(400).send({ message: 'Your Email is wrong!', login: false });
         }
 
         if(exitingUser.role !== 'admin' && exitingUser.role !== 'employee'){
