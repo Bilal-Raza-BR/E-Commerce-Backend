@@ -9,18 +9,16 @@ const loginCon = async (req, res) => {
 console.log(req.body);
 const exitingUser = await modal.findOne({ email }); // null or document
 
+if(!exitingUser){
+    return res.send({message: 'your Email is wrong!', login : false})
+}
+
 if(exitingUser.role !== 'user'){
     return res.send({message: 'You are not a User', login : false})
 }
 
-
 if(!email|| !password){
 return res.send({message: 'Please Fill all filed', login : false})
-}
-
-if(!exitingUser){
-    return res.send({message: 'your Email is wrong!', login : false})
-
 }
 const isMatch = await bcrypt.compare(password,exitingUser.password)
 
