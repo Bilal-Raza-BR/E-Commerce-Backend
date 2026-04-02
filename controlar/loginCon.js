@@ -25,12 +25,17 @@ const isMatch = await bcrypt.compare(password,exitingUser.password)
 if ( !isMatch) {
     return res.send({message: 'your  Password is Wrong❌', login : false})
 }
-const token =  jwt.sign({email: email,password: password }, process.env.TOKEN_KEY);
+// Password ko token mein include mat karein
+const token = jwt.sign(
+    { 
+        email: email, 
+        userId: exitingUser._id,
+        role: exitingUser.role 
+    }, 
+    process.env.TOKEN_KEY,
+    { expiresIn: '24h' }
+);
 
-
-if (exitingUser.email ==email && exitingUser.password){
- res.send({message: 'Login SuccesFull✅', login : true,token: token})
-}
-  
+res.send({message: 'Login SuccesFull✅', login : true, token: token})
 }
 module.exports=loginCon
