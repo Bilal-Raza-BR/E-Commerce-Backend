@@ -1,5 +1,5 @@
 let {modal} = require('../Modal/modal');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const signupCon = async (req, res) => {
     let { name, email, password, contact, age ,role} = req.body;
