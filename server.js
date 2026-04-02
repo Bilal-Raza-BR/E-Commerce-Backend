@@ -8,8 +8,8 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Import database connection and routers
-const dbConnect = require('../backend/config/db');
-const MyRouter = require('../backend/routes/route');
+const dbConnect = require('./config/db');
+const MyRouter = require('./routes/route');
 const seedProductRouter = require('./until/seedProduct');
 
 // Middleware
