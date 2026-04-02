@@ -182,7 +182,8 @@ const seedDatabase = async () => {
 };
 
 // Call the seed function when this module is imported
-seedDatabase();
+// Production mein isse comment rakhna behtar hai taake data bar-bar reset na ho
+// seedDatabase();
 
 // Product upload route - simplified version without file upload
 router.post('/products', async (req, res) => {

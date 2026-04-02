@@ -1,5 +1,5 @@
 let {modal} = require('../Modal/modal');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotEnv = require('dotenv');
 dotEnv.config()
