@@ -10,7 +10,10 @@ const port = process.env.PORT || 5000;
 // Import database connection and routers
 const dbConnect = require('./config/db');
 const MyRouter = require('./routes/route');
-const seedProductRouter = require('./until/seedProduct');
+
+// Zaroori: Check karein ke folder ka naam 'until' hai ya 'utils'
+// Agar folder ka naam utils hai to niche line ko './utils/seedProduct' karein
+const seedProductRouter = require('./until/seedProduct'); 
 
 // Middleware
 // Railway par deploy karte waqt FRONTEND_URL env variable set karein
@@ -23,7 +26,9 @@ app.use(cors({
 app.use(express.json());
 
 // Connect to database
-dbConnect();
+dbConnect().catch(err => {
+    console.error("Database connection failed:", err);
+});
 
 // Log all requests
 app.use((req, res, next) => {
@@ -55,9 +60,11 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}
 
 // Export for Vercel
 module.exports = app;
