@@ -10,12 +10,14 @@ const adminLoginCon = async (req, res) => {
         console.log('Admin login attempt:', email);
 
         if(!email || !password){
-            :
+            return res.status(400).send({message: 'Please Fill all fields', login: false})
+        }
 
         const exitingUser = await modal.findOne({ email }); // null or document
 
         if(!exitingUser){
-            return res.st
+            return res.status(400).send({message: 'Your Email is wrong!', login: false})
+        }
 
         if(exitingUser.role !== 'admin' && exitingUser.role !== 'employee'){
             return res.status(403).send({message: 'You are not an Admin or Employee', login: false})
@@ -26,7 +28,8 @@ const adminLoginCon = async (req, res) => {
         }
 
         // Include role in the token payload
-        const token = j
+        const token = jwt.sign(
+            {
                 email: email,
                 role: exitingUser.role,
                 userId: exitingUser._id
@@ -39,6 +42,9 @@ const adminLoginCon = async (req, res) => {
             message: 'Login Successful✅',
             login: true,
             token: token,
+            role: exitingUser.role,
+            name: exitingUser.name
+        });
         
     } catch (error) {
         console.error('Error in adminLoginCon:', error);
